@@ -1,18 +1,12 @@
-# services:
-#   img:
-#     build: .
-#     container_name: grocerry-container
-#     ports:
-#       - "8080:8080"
-
+version: "3.8"
 services:
-  img:
+  grocery-app:
     build: .
-    container_name: grocerry-container
+    container_name: grocery-container
     ports:
       - "8080:8080"
     volumes:
-      - .:/app # Map the current directory to /app in the container
+      - .:/app # Map the current directory to /app inside the container
       - /app/node_modules # Prevent overwriting node_modules
-    working_dir: /app # Set the working directory to the root of your project
-    command: nodemon index.js # Use nodemon to watch changes in index.js
+    working_dir: /app # Set the working directory
+    command: npm start # Use the start script that runs nodemon

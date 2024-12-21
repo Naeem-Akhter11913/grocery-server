@@ -10,5 +10,4 @@ route.post('/login', loginUser);
 route.post('/logout', authenticateUser, logoutUser);
 route.post('/create-update-address', updateAddresses);
 
-
-module.exports = route;
+module.exports = route; 

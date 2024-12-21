@@ -26,16 +26,16 @@ app.use('/api-1.0/naeem-grocery/user', userAuth);
 
 app.get('/', async (req, res) => {
 
-    try {
+    try { 
         res.status(200).send({
             status: true,
             message: 'Welcome to the Grocery API!',
-            data: [
+            data: [ 
                 {
-                    name: "John",
-                    age: 30,
+                    name: "John", 
+                    age: 30, 
                     city: "New York"
-                },
+                }, 
                 {
                     name: "Jane",
                     age: 28,
@@ -55,11 +55,11 @@ app.get('/', async (req, res) => {
         })
     } catch (error) {
         res.status(500).send({
-            status: false,
+            status: false, 
             message: error.message
         })
-    }
-});
+    } 
+}); 
 
 app.use(saveError)
 

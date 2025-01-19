@@ -42,7 +42,3 @@ function validateInput(type, value) {
 }
 module.exports = validateInput
 
-
-// Name Validation: { isValid: true, errors: {} }
-// Email Validation: { isValid: true, errors: {} }
-// Password Validation: { isValid: true, errors: {} }

@@ -1,4 +1,5 @@
 const userModel = require('../models/userSchema');
+const addressModel = require('../models/userAddressSchema')
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const validateInput = require("../utils/authValidator");
@@ -9,25 +10,41 @@ const registerUser = async (req, res) => {
 
     const nameValidation = validateInput("name", name + " " + familyName);
     if (!nameValidation.isValid) {
-        throw { status: 400, message: nameValidation.errors.name };
+        // throw { status: 400, message: nameValidation.errors.name };
+        res.status(400).json({
+            success: false,
+            message: nameValidation.errors.name
+        })
     }
 
     // Validate email
     const emailValidation = validateInput("email", email);
     if (!emailValidation.isValid) {
-        throw { status: 400, message: emailValidation.errors.email };
+        // throw { status: 400, message: emailValidation.errors.email };
+        res.status(400).json({
+            success: false,
+            message: emailValidation.errors.email
+        })
     }
 
     // Validate password
     const passwordValidation = validateInput("password", password);
     if (!passwordValidation.isValid) {
-        throw { status: 400, message: passwordValidation.errors.password };
+        // throw { status: 400, message: passwordValidation.errors.password };
+        res.status(400).json({
+            success: false,
+            message:passwordValidation.errors.password
+        })
     }
 
     // Check if user already exists
     const existingUser = await userModel.findOne({ email });
     if (existingUser) {
-        throw { status: 409, message: "User already exists" };
+        // throw { status: 409, message: "User already exists" };
+        res.status(409).json({
+            success: false,
+            message:"User already exists"
+        })
     }
     // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -50,24 +67,36 @@ const loginUser = async (req, res, next) => {
     let { email, password } = req.body;
 
     if (!validateInput("email", email)) {
-        throw { status: 400, message: "Invalid email" };
+        res.status(400).json({
+            success: false,
+            message: "Invalid email"
+        });
     }
 
 
     if (!validateInput("password", password)) {
-        throw { status: 400, message: "Invalid password" };
+        res.status(400).json({
+            success: false,
+            message: "Invalid password"
+        })
     }
 
     const user = await userModel.findOne({ email });
 
     if (!user) {
-        throw { message: 404, message: "User not found" };
+        res.status(404).json({
+            success: false,
+            message: "User not found"
+        })
     }
 
     const isPasswordCorrect = await bcrypt.compare(password, user.password);
 
     if (!isPasswordCorrect) {
-        throw { status: 401, message: "Invalid password" };
+        res.status(401).json({
+            success: false,
+            message: "Password miss matched"
+        })
     }
     let { name, familyName, fullName, email: userEmail, _id } = user;
 
@@ -88,7 +117,7 @@ const loginUser = async (req, res, next) => {
         maxAge: 7 * 24 * 60 * 60 * 1000
     });
     res.status(200).json({
-        status: 200,
+        success: true,
         message: 'User logged in successfully'
     })
 }
@@ -206,13 +235,20 @@ const updateAddresses = async (req, res, next) => {
 
     // Validate userId
     if (!userId) {
-        throw { status: 401, message: "Invalid userId" };
+        // throw { status: 401, message: "Invalid userId" };
+        res.status(401).json({
+            success: false,
+            message: "You are not authorized!. "
+        })
     }
 
     // Fetch address details using the userId and addressType
     const addressDetails = await addressModel.findOne({ userId, addressType });
     if (!addressDetails) {
-        throw { status: 404, message: "Address details not found" };
+        // throw { status: 404, message: "Address details not found" };
+        res.status(404).json({
+            success: false, message: "Address details not found"
+        })
     }
 
     // Perform validation for each field
@@ -244,7 +280,7 @@ const updateAddresses = async (req, res, next) => {
     await addressDetails.save(); // Save the updated instance
 
     res.status(200).json({
-        status: 200,
+        success: true,
         message: "Addresses updated successfully",
         details: addressDetails,
     });

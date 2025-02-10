@@ -3,15 +3,15 @@ const addressModel = require('../models/userAddressSchema')
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const validateInput = require("../utils/authValidator");
-const { SECRET_KEY } = require("../configuration/config");
+const { ACCESS_TOKEN_SECRET_KEY, REFERECE_TOKEN_SECRET_KEY, REFRESH_TOKEN_EXPIRY, ACCESS_TOKEN_EXPIRY } = require("../configuration/config");
+const generateToken = require('../utils/generateToken');
 
 const registerUser = async (req, res) => {
     const { name, familyName, email, password } = req.body;
 
     const nameValidation = validateInput("name", name + " " + familyName);
     if (!nameValidation.isValid) {
-        // throw { status: 400, message: nameValidation.errors.name };
-        res.status(400).json({
+        return res.status(400).json({
             success: false,
             message: nameValidation.errors.name
         })
@@ -20,8 +20,7 @@ const registerUser = async (req, res) => {
     // Validate email
     const emailValidation = validateInput("email", email);
     if (!emailValidation.isValid) {
-        // throw { status: 400, message: emailValidation.errors.email };
-        res.status(400).json({
+        return res.status(400).json({
             success: false,
             message: emailValidation.errors.email
         })
@@ -30,8 +29,7 @@ const registerUser = async (req, res) => {
     // Validate password
     const passwordValidation = validateInput("password", password);
     if (!passwordValidation.isValid) {
-        // throw { status: 400, message: passwordValidation.errors.password };
-        res.status(400).json({
+        return res.status(400).json({
             success: false,
             message:passwordValidation.errors.password
         })
@@ -40,12 +38,12 @@ const registerUser = async (req, res) => {
     // Check if user already exists
     const existingUser = await userModel.findOne({ email });
     if (existingUser) {
-        // throw { status: 409, message: "User already exists" };
-        res.status(409).json({
+        return res.status(409).json({
             success: false,
             message:"User already exists"
         })
     }
+    
     // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -63,7 +61,7 @@ const registerUser = async (req, res) => {
 };
 
 
-const loginUser = async (req, res, next) => {
+const loginUser = async (req, res) => {
     let { email, password } = req.body;
 
     if (!validateInput("email", email)) {
@@ -89,7 +87,6 @@ const loginUser = async (req, res, next) => {
             message: "User not found"
         })
     }
-
     const isPasswordCorrect = await bcrypt.compare(password, user.password);
 
     if (!isPasswordCorrect) {
@@ -103,14 +100,12 @@ const loginUser = async (req, res, next) => {
     const payload = {
         name, familyName, fullName, email: userEmail, _id
     }
-    const option = {
-        expiresIn: '1h'
-    }
 
-    const token = jwt.sign(payload, SECRET_KEY, option);
+    // const token = jwt.sign(payload, REFERECE_TOKEN_SECRET_KEY, option);
+    const referenceToken = generateToken(payload,REFERECE_TOKEN_SECRET_KEY ,REFRESH_TOKEN_EXPIRY);
+    const accessToken = generateToken(payload,ACCESS_TOKEN_SECRET_KEY,ACCESS_TOKEN_EXPIRY)
 
-
-    res.cookie('token', token, {
+    res.cookie('token', referenceToken, {
         httpOnly: true,
         secure: true,
         sameSite: 'Strict',
@@ -118,8 +113,9 @@ const loginUser = async (req, res, next) => {
     });
     res.status(200).json({
         success: true,
+        accessToken,
         message: 'User logged in successfully'
-    })
+    });
 }
 
 
@@ -140,88 +136,7 @@ const logoutUser = (req, res, next) => {
     }
 }
 
-
-// const updateAddresses = async (req, res, next) => {
-
-//     const {
-//         userId,
-//         addressType,
-//         addressLine1,
-//         addressLine2,
-//         city,
-//         state,
-//         zipCode,
-//         country,
-//     } = req.body;
-
-//     if (!userId) {
-//         throw { status: 401, message: "Invalid userId" };
-//     }
-
-//     const addressDetails = await addressModel.findOne({ userId, addressType });
-//     if (!addressDetails) {
-//         throw { status: 404, message: "User not found" };
-//     }
-
-//     const address1Validation = validateInput("address", addressLine1);
-//     if (!address1Validation.isValid) {
-//         throw { status: 400, message: address1Validation.errors.name }; // Bad Request
-//     }
-
-//     const address2Validation = validateInput("address", addressLine2);
-
-//     if (!address2Validation.isValid) {
-//         throw { status: 400, message: address2Validation.errors.name }; // Bad Request
-//     }
-
-//     const cityValidation = validateInput("address", city);
-
-//     if (!cityValidation.isValid) {
-//         throw { status: 400, message: cityValidation.errors.name }; // Bad Request
-//     }
-
-//     const stateValidation = validateInput("address", state);
-//     if (!stateValidation.isValid) {
-//         throw { status: 400, message: stateValidation.errors.name }; // Bad Request
-//     }
-
-//     const zipCodeValidation = validateInput("address", zipCode);
-//     if (!zipCodeValidation.isValid) {
-//         throw { status: 400, message: zipCodeValidation.errors.name }; // Bad Request
-//     }
-//     const countryValidation = validateInput("address", country);
-//     if (!countryValidation.isValid) {
-//         throw new CustomError(countryValidation.errors.name, 400); // Bad Request
-//     }
-
-//     const newAddress = new addressModel({
-//         userId,
-//         addressType,
-//         addressLine1,
-//         addressLine2,
-//         city,
-//         state,
-//         zipCode,
-//         country
-//     });
-//     await newAddress.save();
-
-//     const updatedDetails = await addressModel.findOneAndUpdate(
-//         { _id: addressDetails._id },
-//         { $set: addressCredentials },
-//         { new: true }
-//     );
-
-
-//     res.status(200).json({
-//         status: 200,
-//         message: "Addresses updated successfully",
-//         details
-//     });
-// }
-
-
-const updateAddresses = async (req, res, next) => {
+const updateAddresses = async (req, res) => {
     const {
         userId,
         addressType,
@@ -243,6 +158,7 @@ const updateAddresses = async (req, res, next) => {
     }
 
     // Fetch address details using the userId and addressType
+
     const addressDetails = await addressModel.findOne({ userId, addressType });
     if (!addressDetails) {
         // throw { status: 404, message: "Address details not found" };
@@ -305,6 +221,11 @@ const updateUserProfile = async (req, res, next) => {
     }
 };
 
+
+const generateReferenceToken = async (req,res) =>{
+    
+}
+
 const checksError = async (req, res) => {
     throw new Error("Heee");
 }
@@ -315,5 +236,6 @@ module.exports = {
     logoutUser,
     updateAddresses,
     updateUserProfile,
+    generateReferenceToken,
     checksError
 };

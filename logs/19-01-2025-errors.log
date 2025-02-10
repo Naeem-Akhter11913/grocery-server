@@ -49,3 +49,140 @@
     at Function.process_params (D:\grocery\grocery-server\node_modules\express\lib\router\index.js:346:12)
     at next (D:\grocery\grocery-server\node_modules\express\lib\router\index.js:280:10)
     at Function.handle (D:\grocery\grocery-server\node_modules\express\lib\router\index.js:175:3)
+[2025-01-19T18:41:07.574Z] ValidationError: userSchema validation failed: familyName: Path `familyName` is required.
+    at Document.invalidate (D:\grocery\grocery-server\node_modules\mongoose\lib\document.js:3331:32)
+    at D:\grocery\grocery-server\node_modules\mongoose\lib\document.js:3092:17
+    at D:\grocery\grocery-server\node_modules\mongoose\lib\schemaType.js:1407:9
+    at process.processTicksAndRejections (node:internal/process/task_queues:77:11)
+[2025-01-19T18:42:35.171Z] ReferenceError: userxModel is not defined
+    at registerUser (D:\grocery\grocery-server\src\controllers\authController.js:38:26)
+    at D:\grocery\grocery-server\src\middleware\asyncHandler.js:2:21
+    at Layer.handle [as handle_request] (D:\grocery\grocery-server\node_modules\express\lib\router\layer.js:95:5)
+    at next (D:\grocery\grocery-server\node_modules\express\lib\router\route.js:149:13)
+    at Route.dispatch (D:\grocery\grocery-server\node_modules\express\lib\router\route.js:119:3)
+    at Layer.handle [as handle_request] (D:\grocery\grocery-server\node_modules\express\lib\router\layer.js:95:5)
+    at D:\grocery\grocery-server\node_modules\express\lib\router\index.js:284:15
+    at Function.process_params (D:\grocery\grocery-server\node_modules\express\lib\router\index.js:346:12)
+    at next (D:\grocery\grocery-server\node_modules\express\lib\router\index.js:280:10)
+    at Function.handle (D:\grocery\grocery-server\node_modules\express\lib\router\index.js:175:3)
+[2025-01-19T18:45:13.653Z] ReferenceError: userxModel is not defined
+    at registerUser (D:\grocery\grocery-server\src\controllers\authController.js:38:26)
+    at D:\grocery\grocery-server\src\middleware\asyncHandler.js:2:21
+    at Layer.handle [as handle_request] (D:\grocery\grocery-server\node_modules\express\lib\router\layer.js:95:5)
+    at next (D:\grocery\grocery-server\node_modules\express\lib\router\route.js:149:13)
+    at Route.dispatch (D:\grocery\grocery-server\node_modules\express\lib\router\route.js:119:3)
+    at Layer.handle [as handle_request] (D:\grocery\grocery-server\node_modules\express\lib\router\layer.js:95:5)
+    at D:\grocery\grocery-server\node_modules\express\lib\router\index.js:284:15
+    at Function.process_params (D:\grocery\grocery-server\node_modules\express\lib\router\index.js:346:12)
+    at next (D:\grocery\grocery-server\node_modules\express\lib\router\index.js:280:10)
+    at Function.handle (D:\grocery\grocery-server\node_modules\express\lib\router\index.js:175:3)
+[2025-01-19T18:48:37.232Z] ReferenceError: userxModel is not defined
+    at registerUser (D:\grocery\grocery-server\src\controllers\authController.js:38:26)
+    at D:\grocery\grocery-server\src\middleware\asyncHandler.js:2:21
+    at Layer.handle [as handle_request] (D:\grocery\grocery-server\node_modules\express\lib\router\layer.js:95:5)
+    at next (D:\grocery\grocery-server\node_modules\express\lib\router\route.js:149:13)
+    at Route.dispatch (D:\grocery\grocery-server\node_modules\express\lib\router\route.js:119:3)
+    at Layer.handle [as handle_request] (D:\grocery\grocery-server\node_modules\express\lib\router\layer.js:95:5)
+    at D:\grocery\grocery-server\node_modules\express\lib\router\index.js:284:15
+    at Function.process_params (D:\grocery\grocery-server\node_modules\express\lib\router\index.js:346:12)
+    at next (D:\grocery\grocery-server\node_modules\express\lib\router\index.js:280:10)
+    at Function.handle (D:\grocery\grocery-server\node_modules\express\lib\router\index.js:175:3)
+[2025-01-19T18:48:40.394Z] ReferenceError: userxModel is not defined
+    at registerUser (D:\grocery\grocery-server\src\controllers\authController.js:38:26)
+    at D:\grocery\grocery-server\src\middleware\asyncHandler.js:2:21
+    at Layer.handle [as handle_request] (D:\grocery\grocery-server\node_modules\express\lib\router\layer.js:95:5)
+    at next (D:\grocery\grocery-server\node_modules\express\lib\router\route.js:149:13)
+    at Route.dispatch (D:\grocery\grocery-server\node_modules\express\lib\router\route.js:119:3)
+    at Layer.handle [as handle_request] (D:\grocery\grocery-server\node_modules\express\lib\router\layer.js:95:5)
+    at D:\grocery\grocery-server\node_modules\express\lib\router\index.js:284:15
+    at Function.process_params (D:\grocery\grocery-server\node_modules\express\lib\router\index.js:346:12)
+    at next (D:\grocery\grocery-server\node_modules\express\lib\router\index.js:280:10)
+    at Function.handle (D:\grocery\grocery-server\node_modules\express\lib\router\index.js:175:3)
+[2025-01-19T18:48:41.164Z] ReferenceError: userxModel is not defined
+    at registerUser (D:\grocery\grocery-server\src\controllers\authController.js:38:26)
+    at D:\grocery\grocery-server\src\middleware\asyncHandler.js:2:21
+    at Layer.handle [as handle_request] (D:\grocery\grocery-server\node_modules\express\lib\router\layer.js:95:5)
+    at next (D:\grocery\grocery-server\node_modules\express\lib\router\route.js:149:13)
+    at Route.dispatch (D:\grocery\grocery-server\node_modules\express\lib\router\route.js:119:3)
+    at Layer.handle [as handle_request] (D:\grocery\grocery-server\node_modules\express\lib\router\layer.js:95:5)
+    at D:\grocery\grocery-server\node_modules\express\lib\router\index.js:284:15
+    at Function.process_params (D:\grocery\grocery-server\node_modules\express\lib\router\index.js:346:12)
+    at next (D:\grocery\grocery-server\node_modules\express\lib\router\index.js:280:10)
+    at Function.handle (D:\grocery\grocery-server\node_modules\express\lib\router\index.js:175:3)
+[2025-01-19T18:48:41.755Z] ReferenceError: userxModel is not defined
+    at registerUser (D:\grocery\grocery-server\src\controllers\authController.js:38:26)
+    at D:\grocery\grocery-server\src\middleware\asyncHandler.js:2:21
+    at Layer.handle [as handle_request] (D:\grocery\grocery-server\node_modules\express\lib\router\layer.js:95:5)
+    at next (D:\grocery\grocery-server\node_modules\express\lib\router\route.js:149:13)
+    at Route.dispatch (D:\grocery\grocery-server\node_modules\express\lib\router\route.js:119:3)
+    at Layer.handle [as handle_request] (D:\grocery\grocery-server\node_modules\express\lib\router\layer.js:95:5)
+    at D:\grocery\grocery-server\node_modules\express\lib\router\index.js:284:15
+    at Function.process_params (D:\grocery\grocery-server\node_modules\express\lib\router\index.js:346:12)
+    at next (D:\grocery\grocery-server\node_modules\express\lib\router\index.js:280:10)
+    at Function.handle (D:\grocery\grocery-server\node_modules\express\lib\router\index.js:175:3)
+[2025-01-19T18:48:42.151Z] ReferenceError: userxModel is not defined
+    at registerUser (D:\grocery\grocery-server\src\controllers\authController.js:38:26)
+    at D:\grocery\grocery-server\src\middleware\asyncHandler.js:2:21
+    at Layer.handle [as handle_request] (D:\grocery\grocery-server\node_modules\express\lib\router\layer.js:95:5)
+    at next (D:\grocery\grocery-server\node_modules\express\lib\router\route.js:149:13)
+    at Route.dispatch (D:\grocery\grocery-server\node_modules\express\lib\router\route.js:119:3)
+    at Layer.handle [as handle_request] (D:\grocery\grocery-server\node_modules\express\lib\router\layer.js:95:5)
+    at D:\grocery\grocery-server\node_modules\express\lib\router\index.js:284:15
+    at Function.process_params (D:\grocery\grocery-server\node_modules\express\lib\router\index.js:346:12)
+    at next (D:\grocery\grocery-server\node_modules\express\lib\router\index.js:280:10)
+    at Function.handle (D:\grocery\grocery-server\node_modules\express\lib\router\index.js:175:3)
+[2025-01-19T18:48:42.523Z] ReferenceError: userxModel is not defined
+    at registerUser (D:\grocery\grocery-server\src\controllers\authController.js:38:26)
+    at D:\grocery\grocery-server\src\middleware\asyncHandler.js:2:21
+    at Layer.handle [as handle_request] (D:\grocery\grocery-server\node_modules\express\lib\router\layer.js:95:5)
+    at next (D:\grocery\grocery-server\node_modules\express\lib\router\route.js:149:13)
+    at Route.dispatch (D:\grocery\grocery-server\node_modules\express\lib\router\route.js:119:3)
+    at Layer.handle [as handle_request] (D:\grocery\grocery-server\node_modules\express\lib\router\layer.js:95:5)
+    at D:\grocery\grocery-server\node_modules\express\lib\router\index.js:284:15
+    at Function.process_params (D:\grocery\grocery-server\node_modules\express\lib\router\index.js:346:12)
+    at next (D:\grocery\grocery-server\node_modules\express\lib\router\index.js:280:10)
+    at Function.handle (D:\grocery\grocery-server\node_modules\express\lib\router\index.js:175:3)
+[2025-01-19T18:48:42.891Z] ReferenceError: userxModel is not defined
+    at registerUser (D:\grocery\grocery-server\src\controllers\authController.js:38:26)
+    at D:\grocery\grocery-server\src\middleware\asyncHandler.js:2:21
+    at Layer.handle [as handle_request] (D:\grocery\grocery-server\node_modules\express\lib\router\layer.js:95:5)
+    at next (D:\grocery\grocery-server\node_modules\express\lib\router\route.js:149:13)
+    at Route.dispatch (D:\grocery\grocery-server\node_modules\express\lib\router\route.js:119:3)
+    at Layer.handle [as handle_request] (D:\grocery\grocery-server\node_modules\express\lib\router\layer.js:95:5)
+    at D:\grocery\grocery-server\node_modules\express\lib\router\index.js:284:15
+    at Function.process_params (D:\grocery\grocery-server\node_modules\express\lib\router\index.js:346:12)
+    at next (D:\grocery\grocery-server\node_modules\express\lib\router\index.js:280:10)
+    at Function.handle (D:\grocery\grocery-server\node_modules\express\lib\router\index.js:175:3)
+[2025-01-19T18:48:43.262Z] ReferenceError: userxModel is not defined
+    at registerUser (D:\grocery\grocery-server\src\controllers\authController.js:38:26)
+    at D:\grocery\grocery-server\src\middleware\asyncHandler.js:2:21
+    at Layer.handle [as handle_request] (D:\grocery\grocery-server\node_modules\express\lib\router\layer.js:95:5)
+    at next (D:\grocery\grocery-server\node_modules\express\lib\router\route.js:149:13)
+    at Route.dispatch (D:\grocery\grocery-server\node_modules\express\lib\router\route.js:119:3)
+    at Layer.handle [as handle_request] (D:\grocery\grocery-server\node_modules\express\lib\router\layer.js:95:5)
+    at D:\grocery\grocery-server\node_modules\express\lib\router\index.js:284:15
+    at Function.process_params (D:\grocery\grocery-server\node_modules\express\lib\router\index.js:346:12)
+    at next (D:\grocery\grocery-server\node_modules\express\lib\router\index.js:280:10)
+    at Function.handle (D:\grocery\grocery-server\node_modules\express\lib\router\index.js:175:3)
+[2025-01-19T18:51:54.734Z] ReferenceError: userxModel is not defined
+    at registerUser (D:\grocery\grocery-server\src\controllers\authController.js:38:26)
+    at D:\grocery\grocery-server\src\middleware\asyncHandler.js:2:21
+    at Layer.handle [as handle_request] (D:\grocery\grocery-server\node_modules\express\lib\router\layer.js:95:5)
+    at next (D:\grocery\grocery-server\node_modules\express\lib\router\route.js:149:13)
+    at Route.dispatch (D:\grocery\grocery-server\node_modules\express\lib\router\route.js:119:3)
+    at Layer.handle [as handle_request] (D:\grocery\grocery-server\node_modules\express\lib\router\layer.js:95:5)
+    at D:\grocery\grocery-server\node_modules\express\lib\router\index.js:284:15
+    at Function.process_params (D:\grocery\grocery-server\node_modules\express\lib\router\index.js:346:12)
+    at next (D:\grocery\grocery-server\node_modules\express\lib\router\index.js:280:10)
+    at Function.handle (D:\grocery\grocery-server\node_modules\express\lib\router\index.js:175:3)
+[2025-01-19T18:52:22.042Z] ReferenceError: userxModel is not defined
+    at registerUser (D:\grocery\grocery-server\src\controllers\authController.js:38:26)
+    at D:\grocery\grocery-server\src\middleware\asyncHandler.js:2:21
+    at Layer.handle [as handle_request] (D:\grocery\grocery-server\node_modules\express\lib\router\layer.js:95:5)
+    at next (D:\grocery\grocery-server\node_modules\express\lib\router\route.js:149:13)
+    at Route.dispatch (D:\grocery\grocery-server\node_modules\express\lib\router\route.js:119:3)
+    at Layer.handle [as handle_request] (D:\grocery\grocery-server\node_modules\express\lib\router\layer.js:95:5)
+    at D:\grocery\grocery-server\node_modules\express\lib\router\index.js:284:15
+    at Function.process_params (D:\grocery\grocery-server\node_modules\express\lib\router\index.js:346:12)
+    at next (D:\grocery\grocery-server\node_modules\express\lib\router\index.js:280:10)
+    at Function.handle (D:\grocery\grocery-server\node_modules\express\lib\router\index.js:175:3)

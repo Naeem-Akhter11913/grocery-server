@@ -23,7 +23,7 @@ const SECRET_KEY = 'your_secret_key'; // Change this to a more secure key in pro
 
 // set routing
 
-app.use('/api-1.0/naeem-grocery/user', userAuth);
+app.use('/api-1.0/naeem-grocery', userAuth);
 
 // app.use(saveError)
 app.use(errorHandler);

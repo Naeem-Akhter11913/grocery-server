@@ -157,7 +157,6 @@ const tableInstance = new mongoose.Schema({
         productColor: {
             type: [String],
             required: true
-
         },
         size: {
             type: [String],

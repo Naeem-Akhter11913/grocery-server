@@ -1,5 +1,5 @@
-const userModel = require('../models/userSchema');
-const addressModel = require('../models/userAddressSchema')
+const userModel = require('../models/user.schema');
+const addressModel = require('../models/user.address.schema');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const validateInput = require("../utils/authValidator");
@@ -206,10 +206,8 @@ const updateAddresses = async (req, res) => {
 
 const updateUserProfile = async (req, res, next) => {
     try {
-
-        // const profileDetails = await 
-
         const { _id } = req.user
+        console.table(req.user)
         await userModel.findOneAndUpdate(
             { _id }, { $set: req.body })
         res.status(200).send({

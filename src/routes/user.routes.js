@@ -11,5 +11,6 @@ route.post('/login', asyncHandler(loginUser));
 route.post('/logout', asyncHandler(logoutUser));
 route.put('/create-update-address', authorizedUser, asyncHandler(updateAddresses));
 route.get('/check-error', asyncHandler(checksError));
+// route.get('/refresh', asyncHandler(checksError));
 
 module.exports = route;

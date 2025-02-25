@@ -19,7 +19,7 @@ const errorHandler = require('./src/middleware/errorHandler');
 
 // set routing
 
-app.use('/api-1.0/naeem-grocery/user', userRoute);
+app.use('/api-1.0/naeem-grocery/auth', userRoute);
 app.use('/api-1.0/naeem-grocery/product', serviceRoute);
 
 // app.use(saveError)

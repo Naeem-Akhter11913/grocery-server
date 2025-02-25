@@ -1,5 +1,5 @@
 const express = require('express');
-const { addProducts, getProducts, updateProduct, deleteProduct } = require('../controllers/service.controller');
+const { addProducts, getProducts, updateProduct, deleteProduct } = require('../controllers/admin.service.controller');
 const asyncHandler = require('../middleware/asyncHandler');
 const apiKeyMiddleware = require('../middleware/apiKeyMiddleware');
 const authorizedUser = require('../middleware/authHandler');

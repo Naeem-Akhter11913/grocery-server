@@ -7,7 +7,7 @@ const { PORT } = require('./src/configuration/config');
 // database connection
 require('./src/database/dbConnectivy')
 
-const allowedOrigins = ["http://localhost:3000", "https://your-frontend.com"];
+const allowedOrigins = ["http://localhost:3000", "https://g-admin-u8vf.vercel.app"];
 
 const corsOptions = {
     origin: function (origin, callback) {

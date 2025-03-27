@@ -1,0 +1,107 @@
+[2025-03-14T11:27:39.476Z] SyntaxError: Unexpected token 'A', "Aluminum f"... is not valid JSON
+    at JSON.parse (<anonymous>)
+    at addProducts (D:\grocery\grocery-server\src\controllers\admin.service.controller.js:91:35)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+[2025-03-14T11:29:21.077Z] SyntaxError: Unexpected token 'A', "Aluminum f"... is not valid JSON
+    at JSON.parse (<anonymous>)
+    at addProducts (D:\grocery\grocery-server\src\controllers\admin.service.controller.js:91:35)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+[2025-03-14T15:51:17.090Z] SyntaxError: Unexpected token 'b', "baby, stro"... is not valid JSON
+    at JSON.parse (<anonymous>)
+    at addProducts (D:\grocery\grocery-server\src\controllers\admin.service.controller.js:79:19)
+    at D:\grocery\grocery-server\src\middleware\asyncHandler.js:2:21
+    at Layer.handle [as handle_request] (D:\grocery\grocery-server\node_modules\express\lib\router\layer.js:95:5)
+    at next (D:\grocery\grocery-server\node_modules\express\lib\router\route.js:149:13)
+    at done (D:\grocery\grocery-server\node_modules\multer\lib\make-middleware.js:45:7)
+    at indicateDone (D:\grocery\grocery-server\node_modules\multer\lib\make-middleware.js:49:68)
+    at Multipart.<anonymous> (D:\grocery\grocery-server\node_modules\multer\lib\make-middleware.js:166:7)
+    at Multipart.emit (node:events:518:28)
+    at emitCloseNT (node:internal/streams/destroy:147:10)
+[2025-03-14T16:15:19.009Z] SyntaxError: Unexpected token 'b', "baby, stro"... is not valid JSON
+    at JSON.parse (<anonymous>)
+    at addProducts (D:\grocery\grocery-server\src\controllers\admin.service.controller.js:79:19)
+    at D:\grocery\grocery-server\src\middleware\asyncHandler.js:2:21
+    at Layer.handle [as handle_request] (D:\grocery\grocery-server\node_modules\express\lib\router\layer.js:95:5)
+    at next (D:\grocery\grocery-server\node_modules\express\lib\router\route.js:149:13)
+    at done (D:\grocery\grocery-server\node_modules\multer\lib\make-middleware.js:45:7)
+    at indicateDone (D:\grocery\grocery-server\node_modules\multer\lib\make-middleware.js:49:68)
+    at Multipart.<anonymous> (D:\grocery\grocery-server\node_modules\multer\lib\make-middleware.js:166:7)
+    at Multipart.emit (node:events:518:28)
+    at emitCloseNT (node:internal/streams/destroy:147:10)
+[2025-03-14T16:19:36.753Z] SyntaxError: Unexpected token 'b', "baby, stro"... is not valid JSON
+    at JSON.parse (<anonymous>)
+    at addProducts (D:\grocery\grocery-server\src\controllers\admin.service.controller.js:79:19)
+    at D:\grocery\grocery-server\src\middleware\asyncHandler.js:2:21
+    at Layer.handle [as handle_request] (D:\grocery\grocery-server\node_modules\express\lib\router\layer.js:95:5)
+    at next (D:\grocery\grocery-server\node_modules\express\lib\router\route.js:149:13)
+    at done (D:\grocery\grocery-server\node_modules\multer\lib\make-middleware.js:45:7)
+    at indicateDone (D:\grocery\grocery-server\node_modules\multer\lib\make-middleware.js:49:68)
+    at Multipart.<anonymous> (D:\grocery\grocery-server\node_modules\multer\lib\make-middleware.js:166:7)
+    at Multipart.emit (node:events:518:28)
+    at emitCloseNT (node:internal/streams/destroy:147:10)
+[2025-03-14T16:24:33.741Z] SyntaxError: Unexpected token 'S', "Small, Medium, Large" is not valid JSON
+    at JSON.parse (<anonymous>)
+    at addProducts (D:\grocery\grocery-server\src\controllers\admin.service.controller.js:107:24)
+    at D:\grocery\grocery-server\src\middleware\asyncHandler.js:2:21
+    at Layer.handle [as handle_request] (D:\grocery\grocery-server\node_modules\express\lib\router\layer.js:95:5)
+    at next (D:\grocery\grocery-server\node_modules\express\lib\router\route.js:149:13)
+    at done (D:\grocery\grocery-server\node_modules\multer\lib\make-middleware.js:45:7)
+    at indicateDone (D:\grocery\grocery-server\node_modules\multer\lib\make-middleware.js:49:68)
+    at Multipart.<anonymous> (D:\grocery\grocery-server\node_modules\multer\lib\make-middleware.js:166:7)
+    at Multipart.emit (node:events:518:28)
+    at emitCloseNT (node:internal/streams/destroy:147:10)
+[2025-03-14T16:25:41.417Z] SyntaxError: Unexpected token 'S', "Small, Medium, Large" is not valid JSON
+    at JSON.parse (<anonymous>)
+    at addProducts (D:\grocery\grocery-server\src\controllers\admin.service.controller.js:107:24)
+    at D:\grocery\grocery-server\src\middleware\asyncHandler.js:2:21
+    at Layer.handle [as handle_request] (D:\grocery\grocery-server\node_modules\express\lib\router\layer.js:95:5)
+    at next (D:\grocery\grocery-server\node_modules\express\lib\router\route.js:149:13)
+    at done (D:\grocery\grocery-server\node_modules\multer\lib\make-middleware.js:45:7)
+    at indicateDone (D:\grocery\grocery-server\node_modules\multer\lib\make-middleware.js:49:68)
+    at Multipart.<anonymous> (D:\grocery\grocery-server\node_modules\multer\lib\make-middleware.js:166:7)
+    at Multipart.emit (node:events:518:28)
+    at emitCloseNT (node:internal/streams/destroy:147:10)
+[2025-03-14T16:25:54.303Z] SyntaxError: Unexpected token 'S', "Small, Medium, Large" is not valid JSON
+    at JSON.parse (<anonymous>)
+    at addProducts (D:\grocery\grocery-server\src\controllers\admin.service.controller.js:107:24)
+    at D:\grocery\grocery-server\src\middleware\asyncHandler.js:2:21
+    at Layer.handle [as handle_request] (D:\grocery\grocery-server\node_modules\express\lib\router\layer.js:95:5)
+    at next (D:\grocery\grocery-server\node_modules\express\lib\router\route.js:149:13)
+    at done (D:\grocery\grocery-server\node_modules\multer\lib\make-middleware.js:45:7)
+    at indicateDone (D:\grocery\grocery-server\node_modules\multer\lib\make-middleware.js:49:68)
+    at Multipart.<anonymous> (D:\grocery\grocery-server\node_modules\multer\lib\make-middleware.js:166:7)
+    at Multipart.emit (node:events:518:28)
+    at emitCloseNT (node:internal/streams/destroy:147:10)
+[2025-03-14T16:26:13.967Z] SyntaxError: Unexpected token 'S', "Small, Medium, Large" is not valid JSON
+    at JSON.parse (<anonymous>)
+    at addProducts (D:\grocery\grocery-server\src\controllers\admin.service.controller.js:107:24)
+    at D:\grocery\grocery-server\src\middleware\asyncHandler.js:2:21
+    at Layer.handle [as handle_request] (D:\grocery\grocery-server\node_modules\express\lib\router\layer.js:95:5)
+    at next (D:\grocery\grocery-server\node_modules\express\lib\router\route.js:149:13)
+    at done (D:\grocery\grocery-server\node_modules\multer\lib\make-middleware.js:45:7)
+    at indicateDone (D:\grocery\grocery-server\node_modules\multer\lib\make-middleware.js:49:68)
+    at Multipart.<anonymous> (D:\grocery\grocery-server\node_modules\multer\lib\make-middleware.js:166:7)
+    at Multipart.emit (node:events:518:28)
+    at emitCloseNT (node:internal/streams/destroy:147:10)
+[2025-03-14T16:26:20.873Z] SyntaxError: Unexpected token 'S', "Small, Medium, Large" is not valid JSON
+    at JSON.parse (<anonymous>)
+    at addProducts (D:\grocery\grocery-server\src\controllers\admin.service.controller.js:107:24)
+    at D:\grocery\grocery-server\src\middleware\asyncHandler.js:2:21
+    at Layer.handle [as handle_request] (D:\grocery\grocery-server\node_modules\express\lib\router\layer.js:95:5)
+    at next (D:\grocery\grocery-server\node_modules\express\lib\router\route.js:149:13)
+    at done (D:\grocery\grocery-server\node_modules\multer\lib\make-middleware.js:45:7)
+    at indicateDone (D:\grocery\grocery-server\node_modules\multer\lib\make-middleware.js:49:68)
+    at Multipart.<anonymous> (D:\grocery\grocery-server\node_modules\multer\lib\make-middleware.js:166:7)
+    at Multipart.emit (node:events:518:28)
+    at emitCloseNT (node:internal/streams/destroy:147:10)
+[2025-03-14T16:27:39.233Z] SyntaxError: Unexpected token 'S', "Small, Medium, Large" is not valid JSON
+    at JSON.parse (<anonymous>)
+    at addProducts (D:\grocery\grocery-server\src\controllers\admin.service.controller.js:107:24)
+    at D:\grocery\grocery-server\src\middleware\asyncHandler.js:2:21
+    at Layer.handle [as handle_request] (D:\grocery\grocery-server\node_modules\express\lib\router\layer.js:95:5)
+    at next (D:\grocery\grocery-server\node_modules\express\lib\router\route.js:149:13)
+    at done (D:\grocery\grocery-server\node_modules\multer\lib\make-middleware.js:45:7)
+    at indicateDone (D:\grocery\grocery-server\node_modules\multer\lib\make-middleware.js:49:68)
+    at Multipart.<anonymous> (D:\grocery\grocery-server\node_modules\multer\lib\make-middleware.js:166:7)
+    at Multipart.emit (node:events:518:28)
+    at emitCloseNT (node:internal/streams/destroy:147:10)

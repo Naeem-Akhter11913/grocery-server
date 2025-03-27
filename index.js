@@ -45,6 +45,12 @@ app.use('/api-1.0/naeem-grocery/product', serviceRoute);
 // app.use(saveError)
 app.use(errorHandler);
 
+app.use((req,res) =>{
+    res.status(200).send({
+        status:true,
+        message:"Server is working fine"
+    })
+})
 
 // Start the server
 app.listen(PORT, () => {

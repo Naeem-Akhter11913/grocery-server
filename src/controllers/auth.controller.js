@@ -31,7 +31,7 @@ const registerUser = async (req, res) => {
     if (!passwordValidation.isValid) {
         return res.status(400).json({
             success: false,
-            message:passwordValidation.errors.password
+            message: passwordValidation.errors.password
         })
     }
 
@@ -40,10 +40,10 @@ const registerUser = async (req, res) => {
     if (existingUser) {
         return res.status(409).json({
             success: false,
-            message:"User already exists"
+            message: "User already exists"
         })
     }
-    
+
     // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -102,8 +102,8 @@ const loginUser = async (req, res) => {
     }
 
     // const token = jwt.sign(payload, REFERECE_TOKEN_SECRET_KEY, option);
-    const referenceToken = generateToken(payload,REFERECE_TOKEN_SECRET_KEY ,REFRESH_TOKEN_EXPIRY);
-    const accessToken = generateToken(payload,ACCESS_TOKEN_SECRET_KEY,ACCESS_TOKEN_EXPIRY)
+    const referenceToken = generateToken(payload, REFERECE_TOKEN_SECRET_KEY, REFRESH_TOKEN_EXPIRY);
+    const accessToken = generateToken(payload, ACCESS_TOKEN_SECRET_KEY, ACCESS_TOKEN_EXPIRY)
 
     res.cookie('token', referenceToken, {
         httpOnly: true,
@@ -114,26 +114,24 @@ const loginUser = async (req, res) => {
     res.status(200).json({
         success: true,
         accessToken,
+        user: payload,
         message: 'User logged in successfully'
     });
 }
 
 
-const logoutUser = (req, res, next) => {
-    try {
-        res.clearCookie("token", {
-            path: "/",
-            secure: true,
-            httpOnly: true,
-            sameSite: "None",
-        });
-        res.status(200).send({
-            status: 200,
-            message: "Logged out successfully",
-        });
-    } catch (error) {
-        next(error);
-    }
+const logoutUser = (req, res) => {
+    res.clearCookie("token", {
+        path: "/",
+        secure: true,
+        httpOnly: true,
+        sameSite: "None",
+    });
+    res.status(200).send({
+        status: 200,
+        message: "Logged out successfully",
+    });
+
 }
 
 const updateAddresses = async (req, res) => {
@@ -220,8 +218,34 @@ const updateUserProfile = async (req, res, next) => {
 };
 
 
-const generateReferenceToken = async (req,res) =>{
-    
+const generateReferenceToken = async (req, res) => {
+    const token = req.cookies.token;
+    if (!token) {
+        return res.status(401).send({
+            status: true,
+            message: "Illigle hitting"
+        });
+    }
+
+    const userDetails = await jwt.decode(token);
+
+    if (!userDetails) {
+        return res.status(401).send({
+            status: true,
+            message: "Your session is expired!. Please Login"
+        })
+    }
+
+    const { iat, exp, ...rest } = userDetails;
+
+    const accessToken = generateToken(rest, ACCESS_TOKEN_SECRET_KEY, ACCESS_TOKEN_EXPIRY);
+
+    res.status(200).send({
+        status: true,
+        accessToken,
+        user: userDetails,
+        message: "Token generated success"
+    })
 }
 
 const checksError = async (req, res) => {

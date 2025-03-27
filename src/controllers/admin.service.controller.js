@@ -3,7 +3,8 @@ const productModel = require('../models/product.schema');
 
 const addProducts = async (req, res) => {
     const { _id, name, familyName, email, fullName } = req.userDetails
-    const { frontImg, backImg, imgs } = req.files;
+    // const { frontImage, backImage, images } = req.files;
+
     const { frontImage,
         backImage,
         productColor,
@@ -42,50 +43,53 @@ const addProducts = async (req, res) => {
         size,
         // productColor
     } = req.body;
+    // console.log(req.body['tags'].split(","));
+    // return;
 
 
     let flipFrontImage = null;
     let flipBackImage = null;
-    if (frontImg && Array.isArray(frontImg) && frontImg.length > 0) {
-        const imge1Object = frontImg[0];
+    if (req.files.frontImage && Array.isArray(req.files.frontImage) && req.files.frontImage.length > 0) {
+        const imge1Object = req.files.frontImage[0];
         flipFrontImage = await uploadStream(imge1Object.buffer, 'frontImage');
     }
-    if (backImg && Array.isArray(backImg) && backImg.length > 0) {
-        const imge2Object = backImg[0];
+    if (req.files.backImage && Array.isArray(req.files.backImage) && req.files.backImage.length > 0) {
+        const imge2Object = req.files.backImage[0];
         flipBackImage = await uploadStream(imge2Object.buffer, 'frontImage');
     }
-
     let imageUrl = [];
-    if (imgs && Array.isArray(imgs) && imgs.length) {
+    if (req.files.images && Array.isArray(req.files.images) && req.files.images.length) {
         imageUrl = await Promise.all(
-            imgs.map(item => uploadStream(item.buffer, 'product'))
+            req.files.images.map(item => uploadStream(item.buffer, 'product'))
         )
     }
+    //frontImage, backImage, images
+    // console.log(imageUrl);
     const productToSave = {
         verderId: _id,
         productName,
         productType,
-        frontImage: frontImg ? flipFrontImage : frontImage,
-        backImage: backImg ? flipBackImage : backImage,
+        frontImage: req.files.frontImage ? flipFrontImage : frontImage,
+        backImage: req.files.backImage ? flipBackImage : backImage,
         actualPrice,
         falsePrice,
         images: imageUrl.length > 0 ? imageUrl : images,
         sku,
         mfg,
-        tags,
+        tags: Array.isArray(tags) ? JSON.parse(tags) : tags.split(","),
         life,
         stock,
         description: {
             productDisc,
             typeOfPacking,
-            color,
+            color: Array.isArray(color) ? JSON.parse(color) : color.split(","),
             quantityPerCase,
             ethylAlcohol,
             pieceInOne,
             packagingAndDelivery,
-            suggestedUse,
-            otherIngredients,
-            warnings
+            suggestedUse: Array.isArray(suggestedUse) ? JSON.parse(suggestedUse) : suggestedUse.split(","),
+            otherIngredients: Array.isArray(otherIngredients) ? JSON.parse(otherIngredients) : otherIngredients.split(","),
+            warnings: Array.isArray(warnings) ? JSON.parse(warnings) : warnings.split(",")
         },
         specifications: {
             standUp,
@@ -100,8 +104,8 @@ const addProducts = async (req, res) => {
             wheels,
             seatBackHeight,
             headRoomInsideCanopy,
-            size,
-            productColor
+            size: Array.isArray(size) ? JSON.parse(size) : size.split(','),
+            productColor: Array.isArray(productColor) ? JSON.parse(productColor) : productColor.split(",")
         }
     }
 
@@ -123,12 +127,11 @@ const getProducts = async (req, res) => {
 
     const skip = (page - 1) * limit;
     let products = null;
-    if (isadmin === true) {
-        products = await productModel.find({ _id }).skip(skip).limit(limit);
+    if (isadmin === "true") {
+        products = await productModel.find({ verderId:_id }).skip(skip).limit(limit);
     } else {
         products = await productModel.find().skip(skip).limit(limit);
     }
-
     res.status(200).send({
         status: true,
         products,

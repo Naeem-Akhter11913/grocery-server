@@ -15,7 +15,7 @@ const sliderMongooseSchema = mongoose.Schema({
     },
     sliderImage: {
         type: String,
-        type: true,
+        require: true,
     }
 }, { timestamps: true });
 

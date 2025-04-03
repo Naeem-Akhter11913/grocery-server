@@ -7,8 +7,8 @@ const apiKeyMiddleware = require('../middleware/apiKeyMiddleware');
 const route = express.Router();
 
 
-route.post('/register', apiKeyMiddleware, asyncHandler(registerUser));
-route.post('/login', apiKeyMiddleware, asyncHandler(loginUser));
+route.post('/register', asyncHandler(registerUser));
+route.post('/login', asyncHandler(loginUser));
 route.post('/logout', apiKeyMiddleware, asyncHandler(logoutUser));
 route.put('/create-update-address', apiKeyMiddleware, authorizedUser, asyncHandler(updateAddresses));
 route.get('/check-error', apiKeyMiddleware, asyncHandler(checksError));

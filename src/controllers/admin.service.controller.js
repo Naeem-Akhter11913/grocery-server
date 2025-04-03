@@ -1,5 +1,7 @@
 const uploadStream = require("../utils/uploadFunctions");
 const productModel = require('../models/product.schema');
+// const sliderModel = require("../models/slider.schema");
+const sliderSchema = require("../models/slider.schema");
 
 const addProducts = async (req, res) => {
     const { _id, name, familyName, email, fullName } = req.userDetails
@@ -128,7 +130,7 @@ const getProducts = async (req, res) => {
     const skip = (page - 1) * limit;
     let products = null;
     if (isadmin === "true") {
-        products = await productModel.find({ verderId:_id }).skip(skip).limit(limit);
+        products = await productModel.find({ verderId: _id }).skip(skip).limit(limit);
     } else {
         products = await productModel.find().skip(skip).limit(limit);
     }
@@ -288,4 +290,145 @@ const deleteProduct = async (req, res) => {
     });
 }
 
-module.exports = { addProducts, getProducts, updateProduct, deleteProduct }
+
+
+
+
+const addSliderContent = async (req, res) => {
+    const { sliderImage } = req.files;
+    const { sliderTitle, sliderHeading } = req.body;
+    const { _id } = req.userDetails;
+
+    const isPresent = await sliderSchema.findOne({ verderId: _id })
+
+    if (isPresent) {
+        return res.status(409).send({
+            status: false,
+            message: "You can't post more than one. Sorry"
+        })
+    }
+
+    let imageUrl = '';
+    if (Array.isArray(sliderImage) && sliderImage.length > 0) {
+        const imge1Object = sliderImage[0];
+        imageUrl = await uploadStream(imge1Object.buffer, 'frontImage');
+    }
+
+    if (!sliderHeading && sliderHeading.trim().length > 0) {
+        return res.status(401).send({
+            status: false,
+            message: "Enter valid slider heading"
+        })
+    }
+    if (!sliderTitle && sliderTitle.trim().length > 0) {
+        return res.status(401).send({
+            status: false,
+            message: "Enter valid slider title"
+        })
+    }
+
+    const sliderObj = {
+        verderId: _id,
+        sliderHeading,
+        sliderTitle,
+        sliderImage: imageUrl
+    }
+
+    const sliderMmongooseInstance = new sliderSchema(sliderObj);
+
+    await sliderMmongooseInstance.save();
+
+    return res.status(201).send({
+        status: true,
+        message: "Slider added success! Now it will appear in clint slider"
+    })
+
+}
+
+const getSliderContent = async (req, res) => {
+    const { _id } = req.userDetails;
+
+    if (!_id) {
+        return res.status(401).send({
+            status: false,
+            message: "You are not Authorized"
+        })
+    }
+
+    const allSlider = await sliderSchema.findOne({ verderId: _id });
+
+    return res.status(200).send({
+        status: true,
+        message: "Here is your content",
+        sliderContent: allSlider
+    })
+
+}
+
+const editSliderContent = async (req, res) => {
+    const { _id } = req.userDetails;
+
+    const { sliderImage } = req.files;
+    const { sliderTitle, sliderHeading, sliderImageURL } = req.body;
+
+    const isPresent = await sliderSchema.findOne({ verderId: _id })
+
+    if (!isPresent) {
+        return res.status(401).send({
+            status: false,
+            message: "Opps! you have no slider content"
+        })
+    }
+
+    let imageUrl = sliderImageURL;
+    if (Array.isArray(sliderImage) && sliderImage.length > 0) {
+        const imge1Object = sliderImage[0];
+        imageUrl = await uploadStream(imge1Object.buffer, 'frontImage');
+    }
+
+    isPresent.sliderImage = imageUrl;
+    await isPresent.save();
+
+    return res.status(200).send({
+        status: true,
+        message: "Slider content is edited success"
+    })
+
+}
+
+const deleteSliderContent = async (req, res) => {
+    const { _id } = req.userDetails;
+    const {sliderId} = req.query;
+
+    if (!_id) {
+        return res.status(400).json({ status: false, message: "Vendor ID is required" });
+    }
+
+    const isPresent = await sliderSchema.findOne({ _id:sliderId });
+
+    if (!isPresent) {
+        return res.status(404).send({
+            status: false,
+            message: "Oops! You have no slider content",
+        });
+    }
+
+    await sliderSchema.findOneAndDelete({ verderId: _id });
+
+    return res.status(200).send({
+        status: true,
+        message: "Slider content deleted successfully",
+    });
+
+
+}
+module.exports = {
+    addProducts,
+    getProducts,
+    updateProduct,
+    deleteProduct,
+    addSliderContent,
+    getSliderContent,
+    editSliderContent,
+    deleteSliderContent
+}

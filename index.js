@@ -33,7 +33,8 @@ app.use(cookieParser()); // Parse cookies
 
 
 const userRoute = require('./src/routes/user.routes');
-const serviceRoute = require('./src/routes/server.routes');
+const serviceRoute = require('./src/routes/servece.routes');
+
 const errorHandler = require('./src/middleware/errorHandler');
 
 
@@ -48,7 +49,7 @@ app.use(errorHandler);
 app.use((req,res) =>{
     res.status(200).send({
         status:true,
-        message:"Server is working fine"
+        message:"This is fallback response please check your endpoints or chaeck your logic"
     })
 })
 

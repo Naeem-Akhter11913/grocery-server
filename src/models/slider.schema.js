@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
-const sliderMongooseSchema = mongoose.Schema({
-    verderId: {
+const sliderMongooseSchema = new mongoose.Schema({
+    verdorId: {
         type: mongoose.Schema.Types.ObjectId,
         require: true
     },
@@ -16,7 +16,12 @@ const sliderMongooseSchema = mongoose.Schema({
     sliderImage: {
         type: String,
         require: true,
+    },
+    isDeleted:{
+        type: Boolean,
+        default: false,
+        require: true,
     }
 }, { timestamps: true });
 
-module.exports = new mongoose.model('slider', sliderMongooseSchema);
+module.exports = mongoose.model('slider', sliderMongooseSchema);

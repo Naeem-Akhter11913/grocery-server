@@ -455,12 +455,9 @@ const addBlogContent = async (req, res) => {
         vendorId: _id, type, mainHeading, image: headingImage, firstHeading, firstHeadingDesc, secondHeading, secondHeadingFirstDesc, secondHeadingImg: imageUrl, secondHeadingSecDesc, quote, secondHeadingThirdDesc
     }
 
-    console.log(ObjTobeSave)
-
     const mongooseInstance = await blogsModel.create(ObjTobeSave);
 
     await mongooseInstance.save();
-
 
     res.status(201).send({
         status: true,
@@ -477,8 +474,8 @@ const getBlogContent = async (req, res) => {
 
     const skip = (page - 1) * pageSize;
 
-    const blogs = await blogsModel.find({ vendorId: _id }).skip(skip).limit(pageSize);
-
+    const blogs = await blogsModel.find({ vendorId: _id , isDeleted: false }).skip(skip).limit(pageSize);
+    
     const total = await blogsModel.countDocuments({ vendorId: _id });
 
     res.status(200).json({
@@ -566,7 +563,6 @@ const deleteBlogContent = async (req, res) => {
         status: true,
         message: 'Blog deleted success'
     })
-
 }
 
 // Blog Comment

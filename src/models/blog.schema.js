@@ -1,32 +1,60 @@
 const mongoose = require('mongoose');
 
-const mongooseBlogInstance = new mongoose.Schema({
-    verderId: {
+const blogSchema = new mongoose.Schema({
+    vendorId: {
         type: mongoose.Schema.Types.ObjectId,
-        require: true
+        required: true,
+        ref: 'userSchema',
     },
-    blogHeadingImage: {
+    type: {
         type: String,
-        require: true
+        required: true,
     },
-    blogHeadingTitle: {
+    mainHeading: {
         type: String,
-        require: true
+        required: true,
     },
-    blogHeadingDesc: {
+    image: {
         type: String,
-        require: true
+        required: true,
     },
-    blogHeadingDesc: {
+    firstHeading: {
         type: String,
-        require: true
+        required: true,
     },
-    subImageTitle: {
+    firstHeadingDesc: {
         type: String,
-        require: true
+        required: true,
     },
-
-
+    secondHeading: {
+        type: String,
+        required: true,
+    },
+    secondHeadingFirstDesc: {
+        type: String,
+        required: true,
+    },
+    secondHeadingImg: {
+        type: [String],
+        required: true,
+    },
+    secondHeadingSecDesc: {
+        type: String,
+        required: true,
+    },
+    quote: {
+        type: String,
+        required: true,
+    },
+    secondHeadingThirdDesc: {
+        type: String,
+        required: true,
+    },
+    isDeleted: {
+        type: Boolean,
+        require: true,
+        default: false,
+    }
 }, { timestamps: true });
 
-module.exports = new mongoose.model("blog", mongooseBlogInstance);
+module.exports = mongoose.model("Blog", blogSchema);

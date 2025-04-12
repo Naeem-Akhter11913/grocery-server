@@ -16,6 +16,7 @@ const uploadStream = async (buffer, folder) => {
         res(result.secure_url);
       }
     );
+    
     let str = Readable.from(buffer);
     str.pipe(theTransformStream);
   });

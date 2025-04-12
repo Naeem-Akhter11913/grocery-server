@@ -1,18 +1,10 @@
 const express = require('express');
-const { addProducts, getProducts, updateProduct, deleteProduct, addSliderContent, getSliderContent, editSliderContent, deleteSliderContent } = require('../controllers/admin.service.controller');
+const { addProducts, getProducts, updateProduct, deleteProduct, addSliderContent, getSliderContent, editSliderContent, deleteSliderContent, addBlogContent, getBlogContent, updateBlogContent, deleteBlogContent, addComment, getComment, updateComment, deleteComment } = require('../controllers/admin.service.controller');
+
 const asyncHandler = require('../middleware/asyncHandler');
 const apiKeyMiddleware = require('../middleware/apiKeyMiddleware');
 const authorizedUser = require('../middleware/authHandler');
 const uploadFiles = require('../middleware/fileUpload');
-// const multer = require('multer');
-// const storage = multer.memoryStorage();
-// const upload = multer({ storage: storage });
-
-// const uploadFiles = upload.fields([
-//     { name: "frontImage", maxCount: 1 },
-//     { name: "backImage", maxCount: 1 },
-//     { name: "images", maxCount: 10 },
-// ]);
 
 const route = express.Router();
 
@@ -32,5 +24,14 @@ route.put('/slider/edit', apiKeyMiddleware, authorizedUser, uploadFiles, asyncHa
 
 route.delete('/slider/delete', apiKeyMiddleware, authorizedUser, asyncHandler(deleteSliderContent));
 
+
+// Blog route
+route.post('/blog/add', apiKeyMiddleware, authorizedUser, uploadFiles, asyncHandler(addBlogContent));
+
+route.get('/blog/get', apiKeyMiddleware, authorizedUser, asyncHandler(getBlogContent));
+
+route.put('/blog/update', apiKeyMiddleware, authorizedUser, uploadFiles, asyncHandler(updateBlogContent));
+
+route.delete('/blog/delete', apiKeyMiddleware, authorizedUser, asyncHandler(deleteBlogContent));
 
 module.exports = route;

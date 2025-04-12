@@ -205,7 +205,6 @@ const updateAddresses = async (req, res) => {
 const updateUserProfile = async (req, res, next) => {
     try {
         const { _id } = req.user
-        console.table(req.user)
         await userModel.findOneAndUpdate(
             { _id }, { $set: req.body })
         res.status(200).send({

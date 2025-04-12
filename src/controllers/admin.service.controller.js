@@ -1,10 +1,11 @@
 const uploadStream = require("../utils/uploadFunctions");
 const productModel = require('../models/product.schema');
-// const sliderModel = require("../models/slider.schema");
 const sliderSchema = require("../models/slider.schema");
+const blogsModel = require("../models/blog.schema");
+const { blogValidation } = require("../utils/auth.validation");
 
 const addProducts = async (req, res) => {
-    const { _id, name, familyName, email, fullName } = req.userDetails
+    const { _id, name, familyName, email, fullName } = req.userDetails;
     // const { frontImage, backImage, images } = req.files;
 
     const { frontImage,
@@ -65,8 +66,7 @@ const addProducts = async (req, res) => {
             req.files.images.map(item => uploadStream(item.buffer, 'product'))
         )
     }
-    //frontImage, backImage, images
-    // console.log(imageUrl);
+
     const productToSave = {
         verderId: _id,
         productName,
@@ -293,7 +293,7 @@ const deleteProduct = async (req, res) => {
 
 
 
-
+// Slider
 const addSliderContent = async (req, res) => {
     const { sliderImage } = req.files;
     const { sliderTitle, sliderHeading } = req.body;
@@ -398,13 +398,13 @@ const editSliderContent = async (req, res) => {
 
 const deleteSliderContent = async (req, res) => {
     const { _id } = req.userDetails;
-    const {sliderId} = req.query;
+    const { sliderId } = req.query;
 
     if (!_id) {
         return res.status(400).json({ status: false, message: "Vendor ID is required" });
     }
 
-    const isPresent = await sliderSchema.findOne({ _id:sliderId });
+    const isPresent = await sliderSchema.findOne({ _id: sliderId });
 
     if (!isPresent) {
         return res.status(404).send({
@@ -422,13 +422,185 @@ const deleteSliderContent = async (req, res) => {
 
 
 }
+
+// Blog
+const addBlogContent = async (req, res) => {
+    const { _id, name, familyName, email, fullName } = req.userDetails;
+    const {
+        type, mainHeading, image, firstHeading, firstHeadingDesc, secondHeading, secondHeadingFirstDesc, secondHeadingImg, secondHeadingSecDesc, quote, secondHeadingThirdDesc } = req.body
+
+    const { error } = blogValidation.validate(req.body);
+
+    if (error) {
+        return res.status(400).send({
+            status: false,
+            message: error.details[0].message
+        });
+    }
+
+    let headingImage = null;
+    if (req.files.image && Array.isArray(req.files.image) && req.files.image.length > 0) {
+        const imge1Object = req.files.image[0];
+        headingImage = await uploadStream(imge1Object.buffer, 'image');
+    }
+
+    let imageUrl = [];
+    if (req.files.secondHeadingImg && Array.isArray(req.files.secondHeadingImg) && req.files.secondHeadingImg.length) {
+        imageUrl = await Promise.all(
+            req.files.secondHeadingImg.map(item => uploadStream(item.buffer, 'product'))
+        )
+    }
+
+    const ObjTobeSave = {
+        vendorId: _id, type, mainHeading, image: headingImage, firstHeading, firstHeadingDesc, secondHeading, secondHeadingFirstDesc, secondHeadingImg: imageUrl, secondHeadingSecDesc, quote, secondHeadingThirdDesc
+    }
+
+    console.log(ObjTobeSave)
+
+    const mongooseInstance = await blogsModel.create(ObjTobeSave);
+
+    await mongooseInstance.save();
+
+
+    res.status(201).send({
+        status: true,
+        message: "Blog added Success",
+    })
+}
+
+const getBlogContent = async (req, res) => {
+    const { _id, name, familyName, email, fullName } = req.userDetails
+    let { page = 1, pageSize = 10 } = req.query;
+
+    page = parseInt(page);
+    pageSize = parseInt(pageSize);
+
+    const skip = (page - 1) * pageSize;
+
+    const blogs = await blogsModel.find({ vendorId: _id }).skip(skip).limit(pageSize);
+
+    const total = await blogsModel.countDocuments({ vendorId: _id });
+
+    res.status(200).json({
+        success: true,
+        currentPage: page,
+        totalPages: Math.ceil(total / pageSize),
+        totalItems: total,
+        data: blogs,
+    });
+
+}
+
+const updateBlogContent = async (req, res) => {
+    const { blogId } = req.query;
+    const {
+        type, mainHeading, firstHeading, firstHeadingDesc, secondHeading,
+        secondHeadingFirstDesc, secondHeadingSecDesc, quote, secondHeadingThirdDesc, secondHeadingImg, image
+    } = req.body;
+
+    const blog = await blogsModel.findOne({ _id: blogId });
+
+    if (!blog) {
+        return res.status(404).json({
+            status: false,
+            message: "Blog not found"
+        });
+    }
+
+    if (type) blog.type = type;
+    if (mainHeading) blog.mainHeading = mainHeading;
+    if (firstHeading) blog.firstHeading = firstHeading;
+    if (firstHeadingDesc) blog.firstHeadingDesc = firstHeadingDesc;
+    if (secondHeading) blog.secondHeading = secondHeading;
+    if (secondHeadingFirstDesc) blog.secondHeadingFirstDesc = secondHeadingFirstDesc;
+    if (secondHeadingSecDesc) blog.secondHeadingSecDesc = secondHeadingSecDesc;
+    if (quote) blog.quote = quote;
+    if (secondHeadingThirdDesc) blog.secondHeadingThirdDesc = secondHeadingThirdDesc;
+    if (secondHeadingImg) blog.secondHeadingImg = secondHeadingImg;
+    if (image) blog.image = image;
+
+
+    if (req.files.image && req.files.image.length > 0) {
+        const imgObj = req.files.image[0];
+        const uploadedImg = await uploadStream(imgObj.buffer, 'BlogImage');
+        blog.image = uploadedImg;
+    }
+
+    // Upload and replace secondHeadingImg array if provided
+    if (req.files.secondHeadingImg && req.files.secondHeadingImg.length > 0) {
+        const uploadedImgs = await Promise.all(
+            req.files.secondHeadingImg.map(item => uploadStream(item.buffer, 'BlogArrayImage'))
+        );
+        console.log(uploadedImgs, secondHeadingImg);
+        // blog.secondHeadingImg = [...secondHeadingImg, ...uploadedImgs];
+        blog.secondHeadingImg = uploadedImgs; // here need changes, if user updates the images with existing image
+    }
+
+    await blog.save();
+
+    return res.status(200).json({
+        status: true,
+        message: "Blog updated successfully"
+    });
+
+}
+
+const deleteBlogContent = async (req, res) => {
+    const { _id, name, familyName, email, fullName } = req.userDetails;
+    const { blogId } = req.query;
+
+    const blog = await blogsModel.findOne({ _id: blogId });
+
+    if (!blog) {
+        return res.status(404).json({
+            status: false,
+            message: "Blog not found"
+        });
+    }
+
+    blog.isDeleted = true;
+
+    await blog.save();
+
+    res.status(200).send({
+        status: true,
+        message: 'Blog deleted success'
+    })
+
+}
+
+// Blog Comment
+const addComment = async (req, res) => {
+
+}
+const getComment = async (req, res) => {
+
+}
+const updateComment = async (req, res) => {
+
+}
+const deleteComment = async (req, res) => {
+
+}
+
 module.exports = {
     addProducts,
     getProducts,
     updateProduct,
     deleteProduct,
+
     addSliderContent,
     getSliderContent,
     editSliderContent,
-    deleteSliderContent
+    deleteSliderContent,
+
+    addBlogContent,
+    getBlogContent,
+    updateBlogContent,
+    deleteBlogContent,
+
+    addComment,
+    getComment,
+    updateComment,
+    deleteComment
 }

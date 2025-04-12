@@ -8,6 +8,8 @@ const uploadFiles = upload.fields([
     { name: "backImage", maxCount: 1 },
     { name: "sliderImage", maxCount: 1 },
     { name: "images", maxCount: 10 },
+    { name: "image", maxCount: 1},
+    { name: "secondHeadingImg", maxCount: 10},
 ]);
 
 

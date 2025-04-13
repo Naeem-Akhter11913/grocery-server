@@ -474,9 +474,9 @@ const getBlogContent = async (req, res) => {
 
     const skip = (page - 1) * pageSize;
 
-    const blogs = await blogsModel.find({ vendorId: _id , isDeleted: false }).skip(skip).limit(pageSize);
-    
-    const total = await blogsModel.countDocuments({ vendorId: _id });
+    const blogs = await blogsModel.find({ vendorId: _id, isDeleted: false }).skip(skip).limit(pageSize);
+
+    const total = await blogsModel.countDocuments({ vendorId: _id, isDeleted: false });
 
     res.status(200).json({
         success: true,
@@ -555,13 +555,38 @@ const deleteBlogContent = async (req, res) => {
         });
     }
 
-    blog.isDeleted = true;
+    // blog.isDeleted = true;
 
     await blog.save();
 
     res.status(200).send({
         status: true,
         message: 'Blog deleted success'
+    })
+}
+
+const getSingleBlog = async (req, res) => {
+    const { blogid } = req.query;
+
+    if (!blogid) {
+        return res.status(400).send({
+            status: false,
+            message: "Blog ID is required"
+        })
+    }
+
+    const blog = await blogsModel.findOne({ _id: blogid });
+
+    if (!blog) {
+        return res.status(404).send({
+            status: false,
+            message: "Blog not found"
+        })
+    }
+    res.status(200).send({
+        status: true,
+        message: "Blog fetched success",
+        blog
     })
 }
 
@@ -594,6 +619,7 @@ module.exports = {
     getBlogContent,
     updateBlogContent,
     deleteBlogContent,
+    getSingleBlog,
 
     addComment,
     getComment,

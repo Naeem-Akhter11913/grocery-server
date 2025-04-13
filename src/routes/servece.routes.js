@@ -1,5 +1,5 @@
 const express = require('express');
-const { addProducts, getProducts, updateProduct, deleteProduct, addSliderContent, getSliderContent, editSliderContent, deleteSliderContent, addBlogContent, getBlogContent, updateBlogContent, deleteBlogContent, addComment, getComment, updateComment, deleteComment } = require('../controllers/admin.service.controller');
+const { addProducts, getProducts, updateProduct, deleteProduct, addSliderContent, getSliderContent, editSliderContent, deleteSliderContent, addBlogContent, getBlogContent, updateBlogContent, deleteBlogContent, addComment, getComment, updateComment, deleteComment, getSingleBlog } = require('../controllers/admin.service.controller');
 
 const asyncHandler = require('../middleware/asyncHandler');
 const apiKeyMiddleware = require('../middleware/apiKeyMiddleware');
@@ -33,5 +33,7 @@ route.get('/blog/get', apiKeyMiddleware, authorizedUser, asyncHandler(getBlogCon
 route.put('/blog/update', apiKeyMiddleware, authorizedUser, uploadFiles, asyncHandler(updateBlogContent));
 
 route.delete('/blog/delete', apiKeyMiddleware, authorizedUser, asyncHandler(deleteBlogContent));
+
+route.get('/blog/get-single-blog', apiKeyMiddleware, authorizedUser, asyncHandler(getSingleBlog));
 
 module.exports = route;

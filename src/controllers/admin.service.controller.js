@@ -78,20 +78,20 @@ const addProducts = async (req, res) => {
         images: imageUrl.length > 0 ? imageUrl : images,
         sku,
         mfg,
-        tags: Array.isArray(tags) ? JSON.parse(tags) : tags.split(","),
+        tags: tags.split(","),
         life,
         stock,
         description: {
             productDisc,
             typeOfPacking,
-            color: Array.isArray(color) ? JSON.parse(color) : color.split(","),
+            color: color.split(","),
             quantityPerCase,
             ethylAlcohol,
             pieceInOne,
             packagingAndDelivery,
-            suggestedUse: Array.isArray(suggestedUse) ? JSON.parse(suggestedUse) : suggestedUse.split(","),
-            otherIngredients: Array.isArray(otherIngredients) ? JSON.parse(otherIngredients) : otherIngredients.split(","),
-            warnings: Array.isArray(warnings) ? JSON.parse(warnings) : warnings.split(",")
+            suggestedUse: suggestedUse.split(","),
+            otherIngredients: otherIngredients.split(","),
+            warnings: warnings.split(",")
         },
         specifications: {
             standUp,
@@ -106,8 +106,8 @@ const addProducts = async (req, res) => {
             wheels,
             seatBackHeight,
             headRoomInsideCanopy,
-            size: Array.isArray(size) ? JSON.parse(size) : size.split(','),
-            productColor: Array.isArray(productColor) ? JSON.parse(productColor) : productColor.split(",")
+            size: size.split(','),
+            productColor: productColor.split(",")
         }
     }
 
@@ -128,28 +128,54 @@ const getProducts = async (req, res) => {
     limit = parseInt(limit) || 10;
 
     const skip = (page - 1) * limit;
-    let products = null;
-    if (isadmin === "true") {
-        products = await productModel.find({ verderId: _id }).skip(skip).limit(limit);
-    } else {
-        products = await productModel.find().skip(skip).limit(limit);
+    // let products = null;
+    // if (isadmin === "true") {
+    //     products = await productModel.find({ verderId: _id }).skip(skip).limit(limit);
+    // } else {
+    //     products = await productModel.find().skip(skip).limit(limit);
+    // }
+    let products = await productModel.find({ verderId: _id }).skip(skip).limit(limit);
+    const total = await productModel.countDocuments({ verderId: _id});
+    res.status(200).send({
+        status: true,
+        message: "Prduct fetched success",
+        currentPage: page,
+        totalPages: Math.ceil(total / limit),
+        totalItems: total,
+        products,
+    })
+
+}
+
+const getSingleProduct = async (req, res) => {
+    const { productid } = req.query;
+
+    if (!productid) {
+        return res.status(400).send({
+            status: false,
+            message: "Product ID is required"
+        })
+    }
+    const product = await productModel.findOne({ _id: productid });
+    if (!product) {
+        return res.status(404).send({
+            status: false,
+            message: "Product not found"
+        })
     }
     res.status(200).send({
         status: true,
-        products,
-        message: "Prduct fetched success"
+        message: "Product fetched success",
+        singleProduct: product
     })
 
 }
 
 const updateProduct = async (req, res) => {
     const { _id, name, familyName, email, fullName } = req.userDetails
-    const { frontImg, backImg, imgs } = req.files;
+    const { frontImage, backImage, images } = req.files;
+    const { item_id } = req.query;
     const {
-        item_id,
-        frontImage,
-        backImage,
-        images,
         productName,
         productType,
         actualPrice,
@@ -182,8 +208,12 @@ const updateProduct = async (req, res) => {
         seatBackHeight,
         headRoomInsideCanopy,
         size,
-        productColor
+        productColor,
+        imagesHTTPsURL,
+        backImageURL,
+        frontImageURL
     } = req.body;
+
 
     if (!item_id) {
         return res.status(400).send({
@@ -201,47 +231,48 @@ const updateProduct = async (req, res) => {
     }
 
 
-    let flipFrontImage = null;
-    let flipBackImage = null;
-    if (frontImg && Array.isArray(frontImg) && frontImg.length > 0) {
-        const imge1Object = frontImg[0];
+    let flipFrontImage = frontImageURL;
+    let flipBackImage = backImageURL;
+    if (frontImage && Array.isArray(frontImage) && frontImage.length > 0) {
+        const imge1Object = frontImage[0];
         flipFrontImage = await uploadStream(imge1Object.buffer, 'frontImage');
     }
-    if (backImg && Array.isArray(backImg) && backImg.length > 0) {
-        const imge2Object = backImg[0];
+    if (backImage && Array.isArray(backImage) && backImage.length > 0) {
+        const imge2Object = backImage[0];
         flipBackImage = await uploadStream(imge2Object.buffer, 'backImage');
     }
 
-    let imageUrl = [];
-    if (Array.isArray(imgs) && imgs.length > 0) {
-        imageUrl = await Promise.all(
-            imgs.map(item => uploadStream(item.buffer, 'product'))
+    let imageUrl = Array.isArray(imagesHTTPsURL) ? [...imagesHTTPsURL] : [imagesHTTPsURL];
+    if (Array.isArray(images) && images.length > 0) {
+        let newImageUrl = await Promise.all(
+            images.map(item => uploadStream(item.buffer, 'product'))
         )
+        imageUrl = [...imageUrl, ...newImageUrl]
     }
     const productToSave = {
         productName,
         productType,
-        frontImage: flipFrontImage || frontImage,
-        backImage: flipBackImage || backImage,
+        frontImage: flipFrontImage,
+        backImage: flipBackImage,
         actualPrice,
         falsePrice,
-        images: imageUrl.length > 0 ? imageUrl : images,
+        images: imageUrl,
         sku,
         mfg,
-        tags,
+        tags: tags.split(","),
         life,
         stock,
         description: {
             productDisc,
             typeOfPacking,
-            color,
+            color: color.split(","),
             quantityPerCase,
             ethylAlcohol,
             pieceInOne,
             packagingAndDelivery,
-            suggestedUse,
-            otherIngredients,
-            warnings
+            suggestedUse: suggestedUse.split(","),
+            otherIngredients: otherIngredients.split(","),
+            warnings: warnings.split(",")
         },
         specifications: {
             standUp,
@@ -256,8 +287,8 @@ const updateProduct = async (req, res) => {
             wheels,
             seatBackHeight,
             headRoomInsideCanopy,
-            size,
-            productColor
+            size: size.split(','),
+            productColor: productColor.split(",")
         }
     }
 
@@ -273,7 +304,7 @@ const updateProduct = async (req, res) => {
 }
 
 const deleteProduct = async (req, res) => {
-    const { item_id } = req.headers;
+    const { item_id } = req.query;
 
     if (!item_id) {
         return res.status(400).send({
@@ -488,11 +519,12 @@ const getBlogContent = async (req, res) => {
 
 }
 
+
 const updateBlogContent = async (req, res) => {
     const { blogId } = req.query;
     const {
         type, mainHeading, firstHeading, firstHeadingDesc, secondHeading,
-        secondHeadingFirstDesc, secondHeadingSecDesc, quote, secondHeadingThirdDesc, secondHeadingImg, image
+        secondHeadingFirstDesc, secondHeadingSecDesc, quote, secondHeadingThirdDesc, imageHTPPSurl, secondHeadingImgHTPPSurl
     } = req.body;
 
     const blog = await blogsModel.findOne({ _id: blogId });
@@ -504,6 +536,7 @@ const updateBlogContent = async (req, res) => {
         });
     }
 
+
     if (type) blog.type = type;
     if (mainHeading) blog.mainHeading = mainHeading;
     if (firstHeading) blog.firstHeading = firstHeading;
@@ -513,8 +546,18 @@ const updateBlogContent = async (req, res) => {
     if (secondHeadingSecDesc) blog.secondHeadingSecDesc = secondHeadingSecDesc;
     if (quote) blog.quote = quote;
     if (secondHeadingThirdDesc) blog.secondHeadingThirdDesc = secondHeadingThirdDesc;
-    if (secondHeadingImg) blog.secondHeadingImg = secondHeadingImg;
-    if (image) blog.image = image;
+
+
+
+    if (secondHeadingImgHTPPSurl) { blog.secondHeadingImg = Array.isArray(secondHeadingImgHTPPSurl) ? secondHeadingImgHTPPSurl : [secondHeadingImgHTPPSurl]; } else {
+        blog.secondHeadingImg = [];
+    }
+
+    if (imageHTPPSurl) {
+        blog.image = imageHTPPSurl;
+    } else {
+        blog.image = imageHTPPSurl
+    }
 
 
     if (req.files.image && req.files.image.length > 0) {
@@ -528,9 +571,9 @@ const updateBlogContent = async (req, res) => {
         const uploadedImgs = await Promise.all(
             req.files.secondHeadingImg.map(item => uploadStream(item.buffer, 'BlogArrayImage'))
         );
-        console.log(uploadedImgs, secondHeadingImg);
-        // blog.secondHeadingImg = [...secondHeadingImg, ...uploadedImgs];
-        blog.secondHeadingImg = uploadedImgs; // here need changes, if user updates the images with existing image
+
+        const existing = blog.secondHeadingImg || [];
+        blog.secondHeadingImg = [...existing, ...uploadedImgs];
     }
 
     await blog.save();
@@ -607,6 +650,7 @@ const deleteComment = async (req, res) => {
 module.exports = {
     addProducts,
     getProducts,
+    getSingleProduct,
     updateProduct,
     deleteProduct,
 

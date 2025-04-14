@@ -1,5 +1,5 @@
 const express = require('express');
-const { addProducts, getProducts, updateProduct, deleteProduct, addSliderContent, getSliderContent, editSliderContent, deleteSliderContent, addBlogContent, getBlogContent, updateBlogContent, deleteBlogContent, addComment, getComment, updateComment, deleteComment, getSingleBlog } = require('../controllers/admin.service.controller');
+const { addProducts, getProducts, updateProduct, deleteProduct, addSliderContent, getSliderContent, editSliderContent, deleteSliderContent, addBlogContent, getBlogContent, updateBlogContent, deleteBlogContent, addComment, getComment, updateComment, deleteComment, getSingleBlog, getSingleProduct } = require('../controllers/admin.service.controller');
 
 const asyncHandler = require('../middleware/asyncHandler');
 const apiKeyMiddleware = require('../middleware/apiKeyMiddleware');
@@ -9,7 +9,8 @@ const uploadFiles = require('../middleware/fileUpload');
 const route = express.Router();
 
 route.post('/add', apiKeyMiddleware, authorizedUser, uploadFiles, asyncHandler(addProducts));
-route.get('/get', apiKeyMiddleware, authorizedUser, uploadFiles, asyncHandler(getProducts));
+route.get('/get', apiKeyMiddleware, authorizedUser, asyncHandler(getProducts));
+route.get('/get-single-product', apiKeyMiddleware, authorizedUser, asyncHandler(getSingleProduct));
 route.put('/update', apiKeyMiddleware, authorizedUser, uploadFiles, asyncHandler(updateProduct));
 route.delete('/delete', apiKeyMiddleware, authorizedUser, asyncHandler(deleteProduct));
 

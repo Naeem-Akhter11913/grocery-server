@@ -8,6 +8,11 @@ const route = express.Router();
 
 
 route.post('/register', asyncHandler(registerUser));
+route.get('/check', function(req,res){
+    res.status(200).send({
+        message: 'all is ok'
+    })
+});
 route.post('/login', asyncHandler(loginUser));
 route.post('/logout', apiKeyMiddleware, asyncHandler(logoutUser));
 route.put('/create-update-address', apiKeyMiddleware, authorizedUser, asyncHandler(updateAddresses));

@@ -7,7 +7,8 @@ const { PORT } = require('./src/configuration/config');
 // database connection
 require('./src/database/dbConnectivy')
 
-const allowedOrigins = ["http://localhost:3000", "https://g-admin-u8vf.vercel.app"];
+// const allowedOrigins = ["http://localhost:3000", "https://g-admin-u8vf.vercel.app"];
+const allowedOrigins = ["http://localhost:3000", "https://g-admin-indol.vercel.app"];
 
 const corsOptions = {
     origin: function (origin, callback) {
@@ -37,7 +38,7 @@ const serviceRoute = require('./src/routes/admin.routes');
 
 const errorHandler = require('./src/middleware/errorHandler');
 
-
+ 
 // set routing
 
 app.use('/api-1.0/naeem-grocery/auth', userRoute);

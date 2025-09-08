@@ -10,6 +10,7 @@ const date = new Date().toLocaleDateString("en-GB", {
 
 const logsDirectory = path.join(__dirname, "..", "..", "logs");
 
+
 // Ensure logs directory exists
 if (!fs.existsSync(logsDirectory)) {
   fs.mkdirSync(logsDirectory, { recursive: true });

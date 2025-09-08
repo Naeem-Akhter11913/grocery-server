@@ -65,7 +65,7 @@ const loginUser = async (req, res) => {
     let { email, password } = req.body;
 
     if (!validateInput("email", email)) {
-        res.status(400).json({
+        return res.status(400).json({
             success: false,
             message: "Invalid email"
         });
@@ -73,7 +73,7 @@ const loginUser = async (req, res) => {
 
 
     if (!validateInput("password", password)) {
-        res.status(400).json({
+        return res.status(400).json({
             success: false,
             message: "Invalid password"
         })
@@ -82,7 +82,7 @@ const loginUser = async (req, res) => {
     const user = await userModel.findOne({ email });
 
     if (!user) {
-        res.status(404).json({
+        return res.status(404).json({
             success: false,
             message: "User not found"
         })
@@ -90,7 +90,7 @@ const loginUser = async (req, res) => {
     const isPasswordCorrect = await bcrypt.compare(password, user.password);
 
     if (!isPasswordCorrect) {
-        res.status(400).json({
+        return res.status(400).json({
             success: false,
             message: "Password miss matched"
         })

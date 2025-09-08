@@ -12,14 +12,14 @@ const allowedOrigins = ["http://localhost:3000", "https://g-admin-u8vf.vercel.ap
 const corsOptions = {
     origin: function (origin, callback) {
         if (!origin || allowedOrigins.includes(origin)) {
-            callback(null, true);
+            callback(null, origin);
         } else {
             callback(new Error("Not allowed by CORS"));
         }
     },
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE","OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization","apiKey","page", "limit","isadmin"],
+    allowedHeaders: ["Content-Type", "Authorization","apiKey","page", "limit","isadmin","apikey"],
 };
 
 const app = express();
@@ -33,7 +33,7 @@ app.use(cookieParser()); // Parse cookies
 
 
 const userRoute = require('./src/routes/user.routes');
-const serviceRoute = require('./src/routes/servece.routes');
+const serviceRoute = require('./src/routes/admin.routes');
 
 const errorHandler = require('./src/middleware/errorHandler');
 

@@ -135,7 +135,7 @@ const getProducts = async (req, res) => {
     //     products = await productModel.find().skip(skip).limit(limit);
     // }
     let products = await productModel.find({ verderId: _id }).skip(skip).limit(limit);
-    const total = await productModel.countDocuments({ verderId: _id});
+    const total = await productModel.countDocuments({ verderId: _id });
     res.status(200).send({
         status: true,
         message: "Prduct fetched success",
@@ -312,7 +312,6 @@ const deleteProduct = async (req, res) => {
             message: "Connect with frontend developer"
         })
     }
-
     await productModel.findOneAndDelete({ _id: item_id });
 
     res.status(200).send({
@@ -359,7 +358,7 @@ const addSliderContent = async (req, res) => {
     }
 
     const sliderObj = {
-        verderId: _id,
+        verdorId: _id,
         sliderHeading,
         sliderTitle,
         sliderImage: imageUrl
@@ -378,15 +377,7 @@ const addSliderContent = async (req, res) => {
 
 const getSliderContent = async (req, res) => {
     const { _id } = req.userDetails;
-
-    if (!_id) {
-        return res.status(401).send({
-            status: false,
-            message: "You are not Authorized"
-        })
-    }
-
-    const allSlider = await sliderSchema.findOne({ verderId: _id });
+    const allSlider = await sliderSchema.findOne({ verdorId: _id });
 
     return res.status(200).send({
         status: true,
@@ -400,9 +391,10 @@ const editSliderContent = async (req, res) => {
     const { _id } = req.userDetails;
 
     const { sliderImage } = req.files;
-    const { sliderTitle, sliderHeading, sliderImageURL } = req.body;
+    const { sliderTitle, sliderHeading, sliderImageURL, isShow } = req.body;
+    const { sliderid } = req.query;
 
-    const isPresent = await sliderSchema.findOne({ verderId: _id })
+    const isPresent = await sliderSchema.findOne({ _id: sliderid, isShow: true })
 
     if (!isPresent) {
         return res.status(401).send({
@@ -418,6 +410,9 @@ const editSliderContent = async (req, res) => {
     }
 
     isPresent.sliderImage = imageUrl;
+    isPresent.sliderTitle = sliderTitle;
+    isPresent.sliderHeading = sliderHeading;
+    isPresent.isShow = isShow;
     await isPresent.save();
 
     return res.status(200).send({
@@ -591,16 +586,14 @@ const deleteBlogContent = async (req, res) => {
 
     const blog = await blogsModel.findOne({ _id: blogId });
 
-    if (!blog) {
+    if (!blog && Object.keys(blog).length > 0) {
         return res.status(404).json({
             status: false,
             message: "Blog not found"
         });
     }
 
-    // blog.isDeleted = true;
-
-    await blog.save();
+    await blogsModel.findOneAndDelete({ _id: blogId })
 
     res.status(200).send({
         status: true,
